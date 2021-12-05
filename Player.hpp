@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 
+#include "Case.hpp"
+
 class Player
 {
     private:
@@ -30,9 +32,11 @@ class Player
         void start();//Début du jeu pour le joueur
         void startTurn();//Début du tour
         void stopTurn();//Fin du tour
-        std::string placeSettlement();//Placement d'une colonie
-        std::string placeRoad(); //Placement d'une route
+        std::string placeSettlement(std::string nameCase, int positionCase);//Placement de colonie en cours de partie
+        std::string placeRoad(); //Placement d'une route en début de partie
+        std::string placeRoad(std::string nameCase1, std::string nameCase2);//Placement des routes en cours de partie avec coordonnée
         int rollingDice(); //Lancement des dés
+        std::string getcolor();//Récupérer couleur joueur
 
 };
 

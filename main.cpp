@@ -21,5 +21,6 @@ int main()
     p.getmap();
     p.nbRessourceDispo();
     p.rollingDice();
+    p.startTurn();
     return 0; 
 }
