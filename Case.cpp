@@ -6,6 +6,7 @@
 using namespace std;
 
 
+Case::Case(){}
 Case::Case(char id)
 {
     setId(id);
@@ -95,3 +96,32 @@ void Case::setR(string ressource)
 {
     m_r.setType(ressource);
 }
+
+void Case::setNeighbours(char idCase)
+{
+    m_neighbours.push_back(idCase);
+}
+
+vector<char> Case::getNeighbours()
+{
+    return m_neighbours;
+}
+
+void Case::getNeighbour()
+{
+    cout << "[";
+    for(int i=0; i<m_neighbours.size(); i++)
+    {
+        if(i<m_neighbours.size()-1)
+        {
+            cout << m_neighbours[i] << ", ";
+        }
+        else
+        {
+            cout << m_neighbours[i];
+        }
+        
+    }
+    cout << "]" << endl;
+}
+

@@ -16,10 +16,11 @@ Map::Map()
         m_matrix[nb_cases] = new char[7];
     }
     setmatrix();
-    getmatrix();
+    setlistId();
     setCases();
     setRCases();
-    getCases();
+    setNeighbours();
+    getmatrix();
     
 }
 
@@ -49,15 +50,29 @@ void Map::getmatrix()
         }
         for(int column=0; column<7; column++)
         {
-            cout << m_matrix[line][column] << " ";
+            cout << m_matrix[line][column] << " "; 
+        }
+        cout << endl;
+    }
+    cout << endl;
+}
+void Map::setlistId()
+{
+    for(int line=0; line<11; line++)
+    {
+        for(int column=0; column<7; column++)
+        {
             if(m_matrix[line][column] != ' ') 
             {
                 m_listId.push_back(m_matrix[line][column]);
             } 
         }
-        cout << endl;
     }
-    cout << endl;
+}
+
+vector<char> Map::getlistId()
+{
+    return m_listId;
 }
 
 char Map::getElemMatrix(int line, int column)
@@ -106,16 +121,260 @@ void Map::setRCases()
 
 vector<Case> Map::getCases()
 {
-    cout << "getCases" << "\n";
-    for(int i=0; i<m_listCases.size(); i++)
-    {
-        cout << "Case N° " << i << "\n";
-        cout << m_listCases[i].getId() << "\n";
-        cout << m_listCases[i].getNum() << "\n";
-        cout << m_listCases[i].getR() << "\n";
-        //cout << m_listCases[i].getTabPosition() << "\n";
-    }
     return m_listCases;
+}
+
+Case Map::getCase(char id)
+{
+    Case c;
+    for(int index=0; index<m_listCases.size(); index++)
+    {
+        if(m_listCases[index].getId() == id)
+        {
+            c = m_listCases[index];
+        }
+    }
+    return c;
+}
+
+void Map::setNeighbours()
+{
+    for(int indexCase=0; indexCase < m_listCases.size(); indexCase++)
+    {
+        if(m_listCases[indexCase].getId() == 'A')
+        {
+            m_listCases[indexCase].setNeighbours('B');
+            m_listCases[indexCase].setNeighbours('C');
+            m_listCases[indexCase].setNeighbours('E');
+        }
+        else if(m_listCases[indexCase].getId() == 'B')
+        {
+            m_listCases[indexCase].setNeighbours('A');
+            m_listCases[indexCase].setNeighbours('D');
+            m_listCases[indexCase].setNeighbours('E');
+            m_listCases[indexCase].setNeighbours('H');
+        }
+        else if(m_listCases[indexCase].getId() == 'C')
+        {
+            m_listCases[indexCase].setNeighbours('A');
+            m_listCases[indexCase].setNeighbours('E');
+            m_listCases[indexCase].setNeighbours('F');
+            m_listCases[indexCase].setNeighbours('I');
+        }
+        else if(m_listCases[indexCase].getId() == 'D')
+        {
+            m_listCases[indexCase].setNeighbours('B');
+            m_listCases[indexCase].setNeighbours('G');
+            m_listCases[indexCase].setNeighbours('H');
+            m_listCases[indexCase].setNeighbours('K');
+        }
+        else if(m_listCases[indexCase].getId() == 'E')
+        {
+            m_listCases[indexCase].setNeighbours('A');
+            m_listCases[indexCase].setNeighbours('B');
+            m_listCases[indexCase].setNeighbours('C');
+            m_listCases[indexCase].setNeighbours('H');
+            m_listCases[indexCase].setNeighbours('I');
+            m_listCases[indexCase].setNeighbours('L');
+        }
+        else if(m_listCases[indexCase].getId() == 'F')
+        {
+            m_listCases[indexCase].setNeighbours('C');
+            m_listCases[indexCase].setNeighbours('I');
+            m_listCases[indexCase].setNeighbours('J');
+            m_listCases[indexCase].setNeighbours('M');
+            
+        }
+        else if(m_listCases[indexCase].getId() == 'G')
+        {
+            m_listCases[indexCase].setNeighbours('D');
+            m_listCases[indexCase].setNeighbours('K');
+            m_listCases[indexCase].setNeighbours('N');
+        }
+        else if(m_listCases[indexCase].getId() == 'H')
+        {
+            m_listCases[indexCase].setNeighbours('B');
+            m_listCases[indexCase].setNeighbours('D');
+            m_listCases[indexCase].setNeighbours('E');
+            m_listCases[indexCase].setNeighbours('K');
+            m_listCases[indexCase].setNeighbours('L');
+            m_listCases[indexCase].setNeighbours('O');
+        }
+        else if(m_listCases[indexCase].getId() == 'I')
+        {
+            m_listCases[indexCase].setNeighbours('C');
+            m_listCases[indexCase].setNeighbours('E');
+            m_listCases[indexCase].setNeighbours('F');
+            m_listCases[indexCase].setNeighbours('L');
+            m_listCases[indexCase].setNeighbours('M');
+            m_listCases[indexCase].setNeighbours('P');
+        }
+        else if(m_listCases[indexCase].getId() == 'J')
+        {
+            m_listCases[indexCase].setNeighbours('F');
+            m_listCases[indexCase].setNeighbours('M');
+            m_listCases[indexCase].setNeighbours('Q');
+        }
+        else if(m_listCases[indexCase].getId() == 'K')
+        {
+            m_listCases[indexCase].setNeighbours('D');
+            m_listCases[indexCase].setNeighbours('G');
+            m_listCases[indexCase].setNeighbours('H');
+            m_listCases[indexCase].setNeighbours('N');
+            m_listCases[indexCase].setNeighbours('O');
+            m_listCases[indexCase].setNeighbours('R');
+        }
+        else if(m_listCases[indexCase].getId() == 'L')
+        {
+            m_listCases[indexCase].setNeighbours('E');
+            m_listCases[indexCase].setNeighbours('H');
+            m_listCases[indexCase].setNeighbours('I');
+            m_listCases[indexCase].setNeighbours('O');
+            m_listCases[indexCase].setNeighbours('P');
+            m_listCases[indexCase].setNeighbours('S');
+        }
+        else if(m_listCases[indexCase].getId() == 'M')
+        {
+            m_listCases[indexCase].setNeighbours('F');
+            m_listCases[indexCase].setNeighbours('I');
+            m_listCases[indexCase].setNeighbours('J');
+            m_listCases[indexCase].setNeighbours('P');
+            m_listCases[indexCase].setNeighbours('Q');
+            m_listCases[indexCase].setNeighbours('T');
+        }
+        else if(m_listCases[indexCase].getId() == 'N')
+        {
+            m_listCases[indexCase].setNeighbours('G');
+            m_listCases[indexCase].setNeighbours('K');
+            m_listCases[indexCase].setNeighbours('R');
+            m_listCases[indexCase].setNeighbours('U');
+        }
+        else if(m_listCases[indexCase].getId() == 'O')
+        {
+            m_listCases[indexCase].setNeighbours('H');
+            m_listCases[indexCase].setNeighbours('K');
+            m_listCases[indexCase].setNeighbours('L');
+            m_listCases[indexCase].setNeighbours('R');
+            m_listCases[indexCase].setNeighbours('S');
+            m_listCases[indexCase].setNeighbours('V');
+        }
+        else if(m_listCases[indexCase].getId() == 'P')
+        {
+            m_listCases[indexCase].setNeighbours('I');
+            m_listCases[indexCase].setNeighbours('L');
+            m_listCases[indexCase].setNeighbours('M');
+            m_listCases[indexCase].setNeighbours('S');
+            m_listCases[indexCase].setNeighbours('T');
+            m_listCases[indexCase].setNeighbours('W');
+        }
+        else if(m_listCases[indexCase].getId() == 'Q')
+        {
+            m_listCases[indexCase].setNeighbours('J');
+            m_listCases[indexCase].setNeighbours('M');
+            m_listCases[indexCase].setNeighbours('T');
+            m_listCases[indexCase].setNeighbours('X');
+        }
+        else if(m_listCases[indexCase].getId() == 'R')
+        {
+            m_listCases[indexCase].setNeighbours('K');
+            m_listCases[indexCase].setNeighbours('N');
+            m_listCases[indexCase].setNeighbours('O');
+            m_listCases[indexCase].setNeighbours('U');
+            m_listCases[indexCase].setNeighbours('V');
+            m_listCases[indexCase].setNeighbours('Y');
+        }
+        else if(m_listCases[indexCase].getId() == 'S')
+        {
+            m_listCases[indexCase].setNeighbours('L');
+            m_listCases[indexCase].setNeighbours('O');
+            m_listCases[indexCase].setNeighbours('P');
+            m_listCases[indexCase].setNeighbours('V');
+            m_listCases[indexCase].setNeighbours('W');
+            m_listCases[indexCase].setNeighbours('Z');
+        }
+        else if(m_listCases[indexCase].getId() == 'T')
+        {
+            m_listCases[indexCase].setNeighbours('M');
+            m_listCases[indexCase].setNeighbours('P');
+            m_listCases[indexCase].setNeighbours('Q');
+            m_listCases[indexCase].setNeighbours('W');
+            m_listCases[indexCase].setNeighbours('X');
+            m_listCases[indexCase].setNeighbours('&');
+        }
+        else if(m_listCases[indexCase].getId() == 'U')
+        {
+            m_listCases[indexCase].setNeighbours('N');
+            m_listCases[indexCase].setNeighbours('R');
+            m_listCases[indexCase].setNeighbours('Y');
+        }
+        else if(m_listCases[indexCase].getId() == 'V')
+        {
+            m_listCases[indexCase].setNeighbours('O');
+            m_listCases[indexCase].setNeighbours('R');
+            m_listCases[indexCase].setNeighbours('S');
+            m_listCases[indexCase].setNeighbours('Y');
+            m_listCases[indexCase].setNeighbours('Z');
+            m_listCases[indexCase].setNeighbours('#');
+        }
+        else if(m_listCases[indexCase].getId() == 'W')
+        {
+            m_listCases[indexCase].setNeighbours('P');
+            m_listCases[indexCase].setNeighbours('S');
+            m_listCases[indexCase].setNeighbours('T');
+            m_listCases[indexCase].setNeighbours('Z');
+            m_listCases[indexCase].setNeighbours('&');
+            m_listCases[indexCase].setNeighbours('@');
+        }
+        else if(m_listCases[indexCase].getId() == 'X')
+        {
+            m_listCases[indexCase].setNeighbours('Q');
+            m_listCases[indexCase].setNeighbours('T');
+            m_listCases[indexCase].setNeighbours('&');
+        }
+        else if(m_listCases[indexCase].getId() == 'Y')
+        {
+            m_listCases[indexCase].setNeighbours('R');
+            m_listCases[indexCase].setNeighbours('U');
+            m_listCases[indexCase].setNeighbours('V');
+            m_listCases[indexCase].setNeighbours('#');
+        }
+        else if(m_listCases[indexCase].getId() == 'Z')
+        {
+            m_listCases[indexCase].setNeighbours('S');
+            m_listCases[indexCase].setNeighbours('V');
+            m_listCases[indexCase].setNeighbours('W');
+            m_listCases[indexCase].setNeighbours('#');
+            m_listCases[indexCase].setNeighbours('@');
+            m_listCases[indexCase].setNeighbours('$');
+        }
+        else if(m_listCases[indexCase].getId() == '&')
+        {
+            m_listCases[indexCase].setNeighbours('T');
+            m_listCases[indexCase].setNeighbours('W');
+            m_listCases[indexCase].setNeighbours('X');
+            m_listCases[indexCase].setNeighbours('@');
+        }
+        else if(m_listCases[indexCase].getId() == '#')
+        {
+            m_listCases[indexCase].setNeighbours('V');
+            m_listCases[indexCase].setNeighbours('Y');
+            m_listCases[indexCase].setNeighbours('Z');
+            m_listCases[indexCase].setNeighbours('$');
+        }
+        else if(m_listCases[indexCase].getId() == '@')
+        {
+            m_listCases[indexCase].setNeighbours('W');
+            m_listCases[indexCase].setNeighbours('Z');
+            m_listCases[indexCase].setNeighbours('&');
+            m_listCases[indexCase].setNeighbours('$');
+        }
+        else if(m_listCases[indexCase].getId() == '$')
+        {
+            m_listCases[indexCase].setNeighbours('Z');
+            m_listCases[indexCase].setNeighbours('#');
+            m_listCases[indexCase].setNeighbours('@');
+        }
+    }
 }
 
 void Map::setmatrix()

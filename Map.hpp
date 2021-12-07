@@ -20,7 +20,11 @@ class Map
         void setmatrix();//modication ou insertion dans la matrice
         void setCases();//modifications et création des cases de la matrice
         std::vector<Case> getCases();//Visualisation des données de chaque case de la matrice
+        Case getCase(char id);
         void setRCases(); //modifications ou affectation des ressources au cases de la matrice
+        void setNeighbours(); //Récupération des voisins pour chaques cases
+        void setlistId();//Création ou modification de la liste des id de chaque case
+        std::vector<char> getlistId(); //Récupération de la liste des id des cases
         
 };
 
