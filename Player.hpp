@@ -7,12 +7,16 @@
 
 #include "Map.hpp"
 #include "Case.hpp"
+#include "Settlement.hpp"
+#include "Road.hpp"
+
 
 class Player
 {
     private:
         std::unordered_map<std::string, int> m_tabRessource;//dictionnaire des ressources
-        //std::vector<Settlement> m_Settlements; //tableau d'objets Colonie
+        std::vector<Settlement> m_Settlements; //tableau d'objets Colonie
+        std::vector<Road> m_tabRoad;//tableau de routes
         std::string m_color; //couleur du joueur
         int m_score; // score du joueur 
         std::string m_name;//nom du joueur
@@ -40,7 +44,10 @@ class Player
         std::string getcolor();//Récupérer couleur joueur
         int getscore();// Récupérer le score
         void winRessources(std::vector<Case> list_Cases); //Gagne ressource avec les dés
-
+        void getTabRoad();//Affiche le tableau
+        int getnbRoads();//Récupère le nombre de route du joueur
+        void getnbRoadsInit();//Affiche le nombre de route restantes
+        void getnbColonyInit();//Affiche le nombre de colonie restantes à construire
 };
 
 

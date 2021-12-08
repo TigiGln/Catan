@@ -39,6 +39,7 @@ int main()
     //startGame();
     srand(time(NULL));
     Map m;
+    // m.getCase('$').getCoordinate();
     Player p("tigi", "blue");
     // p.getRessource("bois");
     p.setRessource("bois", "add");
@@ -48,6 +49,7 @@ int main()
     // p.nbRessourceDispo();
     // p.rollingDice();
     p.startTurn(m.getCases(), m.getlistId());
+    p.getTabRoad();
     // p.winRessources(m.getCases());
     // p.getRessources();
     return 0; 

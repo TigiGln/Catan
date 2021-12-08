@@ -25,6 +25,9 @@ class Map
         void setNeighbours(); //Récupération des voisins pour chaques cases
         void setlistId();//Création ou modification de la liste des id de chaque case
         std::vector<char> getlistId(); //Récupération de la liste des id des cases
+        std::vector<int> getCoordinateCase(char id);
+        void setCoordinateCase();
+        void addRoadMap(char nameCase1, char nameCase2);//ajouter des routes à la Map
         
 };
 

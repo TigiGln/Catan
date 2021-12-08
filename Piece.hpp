@@ -8,13 +8,14 @@ class Piece
 {
     protected:
         std::string m_color;
-        std::vector<std::string> m_coordinatesCases;
+        std::vector<char> m_coordinates;
         
     public:
+        Piece();
         Piece(std::string color);
         ~Piece();
         std::string getcolor();
-        std::vector<std::string> getCoordinates();
+        std::vector<char> getCoordinates();
         
         
 };

@@ -5,6 +5,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 class Case
 {
@@ -15,6 +16,7 @@ class Case
         bool m_tabPosition[6]; //position contruction colonie ou ville
         Ressource m_r; //ressource associé à la case
         std::vector<char> m_neighbours; //liste des cases voisines de la case
+        std::map<std::string, int> m_dictCoordinates;//dictionnaire coordonnées de la case sur la matrice
 
     public:
         Case();//Constructeur basic
@@ -31,6 +33,8 @@ class Case
         void setNeighbours(char idCase);//modification de la liste cases voisines dans la map
         std::vector<char> getNeighbours();
         void getNeighbour();
+        void setCoordinate(int line, int column);
+        void getCoordinate();
         
 
 };

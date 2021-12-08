@@ -125,3 +125,14 @@ void Case::getNeighbour()
     cout << "]" << endl;
 }
 
+void Case::setCoordinate(int line, int column)
+{
+    m_dictCoordinates.insert(make_pair("line", line));
+    m_dictCoordinates.insert(make_pair("column", column));
+}
+
+void Case::getCoordinate()
+{
+    cout << "line: " << m_dictCoordinates["line"] << " column: " << m_dictCoordinates["column"] << endl;
+}
+

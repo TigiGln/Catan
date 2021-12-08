@@ -3,6 +3,8 @@
 #include <string>
 using namespace std;
 
+Piece::Piece(){}
+
 Piece::Piece(string color):m_color(color)
 {}
 
@@ -13,8 +15,8 @@ string Piece::getcolor()
     return m_color;
 }
 
-vector<string> Piece::getCoordinates()
+vector<char> Piece::getCoordinates()
 {
-    return m_coordinatesCases;
+    return m_coordinates;
 }
 

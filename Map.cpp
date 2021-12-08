@@ -20,6 +20,7 @@ Map::Map()
     setCases();
     setRCases();
     setNeighbours();
+    setCoordinateCase();
     getmatrix();
     
 }
@@ -136,6 +137,33 @@ Case Map::getCase(char id)
     }
     return c;
 }
+
+vector<int> Map::getCoordinateCase(char id)
+{
+    vector<int> listcoordinate;
+    for(int line=0; line<11; line++)
+    {
+        for(int column=0; column<7; column++)
+        {
+            if(m_matrix[line][column] == id)
+            {
+                listcoordinate.push_back(line);
+                listcoordinate.push_back(column);
+            }
+        }
+    }
+    return listcoordinate;
+}
+
+void Map::setCoordinateCase()
+{
+    for(int index=0; index<m_listCases.size(); index++)
+    {
+       vector<int> listcoordinate = getCoordinateCase(m_listCases[index].getId());
+       m_listCases[index].setCoordinate(listcoordinate[0], listcoordinate[1]);
+    }
+}
+
 
 void Map::setNeighbours()
 {

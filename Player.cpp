@@ -87,28 +87,32 @@ void Player::startTurn(vector<Case> list_Cases, vector<char> listId)
     cout << "startTurn: " << "\n";
     rollingDice();
     char response;
+    string test;
     if(m_tabRessource["bois"] >= 1 && m_tabRessource["argile"] >= 1)
     {
-        cout << "Voulez vous construire une route : (y/n)";
-        cin >> response;
-        if(response == 'y')
+        do
         {
-            string nameCase1, nameCase2;
-            do
+            cout << "Voulez vous construire une route : (y/n)";
+            cin >> response;
+            if(response == 'y')
             {
-                cout << "Selon les lettres de la matrice, veuillez choisir une des cases encadrant votre route : ";
-                cin >> nameCase1;
-            } while (nameCase1.size() != 1);
-            do
-            {
-                cout << "Veuillez choisir une lettre parmi les suivantes ";
-                cin >> nameCase2;
-                 
-            } while (nameCase2.size() != 1);
-            transform(nameCase1.begin(), nameCase1.end(), nameCase1.begin(), ::toupper);
-            transform(nameCase2.begin(), nameCase2.end(), nameCase2.begin(), ::toupper); 
-            placeRoad(nameCase1, nameCase2, list_Cases);
-        }
+                string nameCase1, nameCase2;
+                do
+                {
+                    cout << "Selon les lettres de la matrice, veuillez choisir une des cases encadrant votre route : ";
+                    cin >> nameCase1;
+                } while (nameCase1.size() != 1);
+                do
+                {
+                    cout << "Veuillez choisir une lettre parmi les suivantes ";
+                    cin >> nameCase2;
+                    
+                } while (nameCase2.size() != 1);
+                transform(nameCase1.begin(), nameCase1.end(), nameCase1.begin(), ::toupper);
+                transform(nameCase2.begin(), nameCase2.end(), nameCase2.begin(), ::toupper); 
+                test = placeRoad(nameCase1, nameCase2, list_Cases);
+            }
+        } while (test != "OK");
     }
     if(m_tabRessource["bois"] >= 1 && m_tabRessource["argile"] >= 1 && m_tabRessource["blé"] >= 1 && m_tabRessource["laine"] >= 1)
     {
@@ -160,19 +164,65 @@ void Player::winRessources(vector<Case> list_Cases)
 string Player::placeRoad(string nameCase1, string nameCase2, vector<Case> list_Cases)
 {
     for(int index=0; index<list_Cases.size(); index++)
+    {
+        if(list_Cases[index].getId() == nameCase1[0])
         {
-            if(list_Cases[index].getId() == nameCase1[0])
+            vector<char> list_neighbour = list_Cases[index].getNeighbours();
+            for(int neighbour = 0; neighbour < list_neighbour.size(); neighbour++)
             {
-                vector<char> list_neighbour = list_Cases[index].getNeighbours();
-                for(int neighbour = 0; neighbour< list_neighbour.size(); neighbour++)
+                if(list_neighbour[neighbour] == nameCase2[0])
                 {
-                    if(list_neighbour[neighbour] == nameCase2[0])
-                    {
-                        cout << "On passe à l'étape suivante" << endl;
-                    }
-                    
+                    m_nbRoadInit--;
+                    m_nbRoads++;
+                    Road r(nameCase1[0], nameCase2[0]);
+                    m_tabRoad.push_back(r);
+                    getnbRoadsInit();
+                    getnbRoads();
+                    cout << "Votre route a bien été ajouté." << "\n";
+                    return "OK";
                 }
+                
             }
         }
-        return "OK";
+    }
+    cout << "Vous avez donné des paramètres erronés, veuillez réessayer !!" << endl;
+    return "No";
+    
+}
+
+void Player::getTabRoad()
+{
+    for(int index=0; index<m_tabRoad.size(); index++)
+    {
+        vector<char> m_tab = m_tabRoad[index].getCoordinates();
+        cout << "[";
+        for(int i=0; i<m_tab.size(); i++)
+        {
+            if(i<m_tab.size())
+            {
+                cout << m_tab[i] << ",";
+            }
+            else
+            {
+                cout << m_tab[i] ;
+            }
+            
+        }
+        cout << "]" << endl;
+    }
+}
+
+int Player::getnbRoads()
+{
+    cout << "Vous disposez maintenant de " << m_nbRoads << " routes" << endl;
+    return m_nbRoads;
+}
+
+void Player::getnbRoadsInit()
+{
+    cout << "Il ne vous reste plus que " << m_nbRoadInit << " route à construire." << endl;
+}
+void Player::getnbColonyInit()
+{
+    cout << m_nbColonyInit << endl;
 }
