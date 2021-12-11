@@ -12,7 +12,7 @@ CC=g++
 
 ######################
 # All the object files 
-OBJFILES = $(OBJDIR)/main.o $(OBJDIR)/Map.o $(OBJDIR)/Case.o $(OBJDIR)/Ressource.o $(OBJDIR)/Player.o $(OBJDIR)/Piece.o $(OBJDIR)/Settlement.o Road.o
+OBJFILES = $(OBJDIR)/main.o $(OBJDIR)/Map.o $(OBJDIR)/Case.o $(OBJDIR)/Ressource.o $(OBJDIR)/Player.o $(OBJDIR)/Piece.o $(OBJDIR)/Settlement.o $(OBJDIR)/Road.o $(OBJDIR)/Jeu.o
 
 ###############
 # All the flagss

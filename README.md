@@ -4,6 +4,7 @@
 
 # M2 DLAD C++ Project
 
+
 ## Settler of Catan
 
 * A popular board game that is made into a video game in this code.
@@ -19,4 +20,7 @@
 make clean && make && ./jeu
 ```
 
+## Map/Legend
+
+![Screenshot](./pictures/Legend_Map.png)
 * Good game!!!

@@ -21,6 +21,7 @@ Map::Map()
     setRCases();
     setNeighbours();
     setCoordinateCase();
+    setDictPositionVoisionDispo();
     getmatrix();
     
 }
@@ -163,6 +164,20 @@ void Map::setCoordinateCase()
        m_listCases[index].setCoordinate(listcoordinate[0], listcoordinate[1]);
     }
 }
+
+void Map::setDictPositionVoisionDispo()
+{
+    for(int indexCase=0; indexCase < m_listCases.size(); indexCase++)
+    {
+        vector<char> neighbours = m_listCases[indexCase].getNeighbours();
+        for(int index=0; index<neighbours.size(); index++)
+        {
+            m_listCases[indexCase].setPositionRoadDispo(neighbours[index], true);
+        }
+    }
+}
+
+
 
 
 void Map::setNeighbours()

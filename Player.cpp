@@ -37,6 +37,11 @@ int Player::getRessource(string ressource)
     return iter->second;
 }
 
+unordered_map<std::string, int> Player::returnRessources()
+{
+    return m_tabRessource;
+}
+
 void Player::setRessource(string key, string action)
 {
     if(action == "add")
@@ -62,10 +67,24 @@ int Player::nbRessourceDispo()
 
 int Player::rollingDice()
 {
-    int dice1 = rand() % 6 + 1;
-    int dice2 = rand() % 6 +1;
-    int sumDice = dice1 + dice2;
-    cout << sumDice << endl;
+    char response;
+    int sumDice;
+    
+    do
+    {
+        cout << "Voulez-vous lancer les dés ? (y/n)" << endl;
+        cin >> response;
+        if(response == 'y')
+        {
+            int dice1 = rand() % 6 + 1;
+            int dice2 = rand() % 6 +1;
+            sumDice = dice1 + dice2;
+            cout << sumDice << endl;
+        }
+        
+    }
+    while(response != 'y');
+    
     return sumDice;
 }
 
@@ -82,10 +101,13 @@ int Player::rollingDice()
 //     rollingDice();
 // }
 
-void Player::startTurn(vector<Case> list_Cases, vector<char> listId)
+void Player::startTurn(Player player, vector<Case> list_Cases)
 {
-    cout << "startTurn: " << "\n";
-    rollingDice();
+    cout << "C'est au tour de ";
+    player.getname();
+    cout << endl;
+    int dices = rollingDice();
+    winRessources(dices, list_Cases);
     char response;
     string test;
     if(m_tabRessource["bois"] >= 1 && m_tabRessource["argile"] >= 1)
@@ -125,11 +147,6 @@ void Player::startTurn(vector<Case> list_Cases, vector<char> listId)
     }
 }
 
-int Player::getscore()
-{
-    return m_score;
-}
-
 char Player::stopTurn()
 {
     int score = getscore();
@@ -147,10 +164,15 @@ char Player::stopTurn()
     }
 }
 
-void Player::winRessources(vector<Case> list_Cases)
+int Player::getscore()
 {
-    cout << "winRessource : " << "\n";
-    int dices = rollingDice();
+    return m_score;
+}
+
+
+
+void Player::winRessources(int dices, vector<Case> list_Cases)
+{
     for(int i=0; i<list_Cases.size(); i++)
     {
         if(list_Cases[i].getNum() == dices)
@@ -163,6 +185,7 @@ void Player::winRessources(vector<Case> list_Cases)
 
 string Player::placeRoad(string nameCase1, string nameCase2, vector<Case> list_Cases)
 {
+
     for(int index=0; index<list_Cases.size(); index++)
     {
         if(list_Cases[index].getId() == nameCase1[0])
@@ -176,18 +199,38 @@ string Player::placeRoad(string nameCase1, string nameCase2, vector<Case> list_C
                     m_nbRoads++;
                     Road r(nameCase1[0], nameCase2[0]);
                     m_tabRoad.push_back(r);
+                    list_Cases[index].setPositionRoadDispo(nameCase2[0], false);
                     getnbRoadsInit();
                     getnbRoads();
-                    cout << "Votre route a bien été ajouté." << "\n";
+                    cout << "Votre route a bien été ajouté." << endl;
                     return "OK";
                 }
                 
             }
         }
+        
     }
     cout << "Vous avez donné des paramètres erronés, veuillez réessayer !!" << endl;
     return "No";
     
+}
+
+void Player::placementColony(Case case1, Case case2, Case case3)
+{
+   if(case1.getNeighbour(case2.getId()) && case2.getNeighbour(case3.getId()) && case3.getNeighbour(case1.getId()))
+   {
+       m_nbColonyInit--;
+       m_nbColony++;
+       Settlement s;
+       m_Settlements.push_back(s);
+
+       cout << "Vous avez acquis une colonie" << endl;
+   }
+   else
+   {
+       cout << "Merci de donner des coordonnées cohérentes pour placer une colonie !";
+   }
+   
 }
 
 void Player::getTabRoad()
@@ -225,4 +268,12 @@ void Player::getnbRoadsInit()
 void Player::getnbColonyInit()
 {
     cout << m_nbColonyInit << endl;
+}
+void Player::getname()
+{
+    cout << m_name << endl;
+}
+void Player::getcolor()
+{
+    cout << m_color << endl;
 }

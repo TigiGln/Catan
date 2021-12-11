@@ -107,6 +107,20 @@ vector<char> Case::getNeighbours()
     return m_neighbours;
 }
 
+bool Case::getNeighbour(char idNeighbour)
+{
+    bool test = false;
+    for(int i=0; i<m_neighbours.size(); i++)
+    {
+        if(m_neighbours[i] == idNeighbour)
+        {
+            test = true;
+        }
+    }
+    return test;
+}
+
+
 void Case::getNeighbour()
 {
     cout << "[";
@@ -125,6 +139,7 @@ void Case::getNeighbour()
     cout << "]" << endl;
 }
 
+
 void Case::setCoordinate(int line, int column)
 {
     m_dictCoordinates.insert(make_pair("line", line));
@@ -135,4 +150,24 @@ void Case::getCoordinate()
 {
     cout << "line: " << m_dictCoordinates["line"] << " column: " << m_dictCoordinates["column"] << endl;
 }
+
+void Case::setPositionRoadDispo(char idVoisin, bool possible)
+{
+    m_dictPositionDispo.insert(make_pair(idVoisin, possible));
+}
+void Case::getPositionRoadDispo(char idVoisin)
+{
+    cout << m_dictPositionDispo[idVoisin];
+}
+
+void Case::setPositionColonyDispo(string combinaison, bool possible)
+{
+    m_positionDispoColony.insert(make_pair(combinaison, possible));
+}
+
+void Case::getPositionColonyDispo(string combinaison)
+{
+    cout << m_positionDispoColony[combinaison];
+}
+
 

@@ -14,9 +14,11 @@ class Case
         char m_id; //lettre de la matrice correspondant à la case
         int m_num; // numéro du jeton pour le lancer des dés
         bool m_tabPosition[6]; //position contruction colonie ou ville
+        std::map<std::string, bool> m_positionDispoColony; //position disponible pour la construction des colonies.
         Ressource m_r; //ressource associé à la case
         std::vector<char> m_neighbours; //liste des cases voisines de la case
-        std::map<std::string, int> m_dictCoordinates;//dictionnaire coordonnées de la case sur la matrice
+        std::map<std::string, int> m_dictCoordinates; //coordonnees sur la map
+        std::map<char, bool> m_dictPositionDispo;//dictionnaire coordonnées de la case sur la matrice
 
     public:
         Case();//Constructeur basic
@@ -33,10 +35,13 @@ class Case
         void setNeighbours(char idCase);//modification de la liste cases voisines dans la map
         std::vector<char> getNeighbours();
         void getNeighbour();
+        bool getNeighbour(char idNeighbour);
         void setCoordinate(int line, int column);
         void getCoordinate();
-        
-
+        void setPositionRoadDispo(char idVoisin, bool possible);
+        void getPositionRoadDispo(char idVoisin);
+        void setPositionColonyDispo(std::string combinaison, bool possible);
+        void getPositionColonyDispo(std::string combinaison);
 };
 
 #endif

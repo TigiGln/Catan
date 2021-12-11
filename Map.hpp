@@ -27,7 +27,8 @@ class Map
         std::vector<char> getlistId(); //Récupération de la liste des id des cases
         std::vector<int> getCoordinateCase(char id);
         void setCoordinateCase();
-        void addRoadMap(char nameCase1, char nameCase2);//ajouter des routes à la Map
+        void setDictPositionVoisionDispo();
+               
         
 };
 
