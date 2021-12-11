@@ -28,6 +28,10 @@ class Map
         std::vector<int> getCoordinateCase(char id);
         void setCoordinateCase();
         void setDictPositionVoisionDispo();
+        void setMapPositionColonyDispo();
+        void updateMapPositionColonyDispo(char nameCase, std::string positionCase, bool possible);
+        void getMapPositionColonyDispo(char nameCase, std::string positionCase);
+        char intersectNeighbours(char namecase1, char namecase2);
                
         
 };

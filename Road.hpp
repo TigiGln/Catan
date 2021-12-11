@@ -3,14 +3,14 @@
 
 #include "Piece.hpp"
 
+#include <vector>
+
 class Road:public Piece
 {
-    private:
-
     public:
-        Road(char, char);
-        ~Road();
-        void setCoordinates(char tabCases[2]);
+        Road(std::vector<char> casesCoordinate);
+        
+        
 };
 
 #endif

@@ -1,12 +1,15 @@
 #include "Player.hpp"
 #include "Map.hpp"
 #include "Case.hpp"
+#include "Settlement.hpp"
+#include "Piece.hpp"
 
 #include <iostream>
 #include <string>
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <stdarg.h>
 
 using namespace std;
 
@@ -72,7 +75,7 @@ int Player::rollingDice()
     
     do
     {
-        cout << "Voulez-vous lancer les dés ? (y/n)" << endl;
+        cout << "Lancer les dés ? (y)" << endl;
         cin >> response;
         if(response == 'y')
         {
@@ -88,18 +91,64 @@ int Player::rollingDice()
     return sumDice;
 }
 
-// void Player::start()
-// {
-//     string nameCase;
-//     int positionCase;
-//     cout << "Veuillez choisir une case : \n";
-//     cin >> nameCase;
-//     cout << "Veuillez entrer la position entre 1 et 6 sur laquelle va être placé votre colonie : ";
-//     cin >> positionCase;
-//     placeSettlement(nameCase, positionCase);
-//     placeRoad();
-//     rollingDice();
-// }
+string Player::placeSettlement(string moment, int nbCases, ...)
+{
+    vector<char> casesCoordinate;
+    va_list list;
+    va_start(list, nbCases);
+    while(nbCases>0)
+    {
+        char nameCase;
+        nameCase = va_arg(list, int);
+        casesCoordinate.push_back(nameCase);
+        nbCases--;
+        
+    }
+    va_end(list);
+    string message {""};
+    if(moment == "start")
+    {
+        m_nbColonyInit--;
+        m_nbColony++;
+        Settlement s(casesCoordinate);
+        m_Settlements.push_back(s);
+        m_score++;
+        cout << "Vous avez bien placé une colonie." << endl;
+        message = "OK";
+    }
+    else
+    {
+        if(m_tabRessource["bois"] >= 1 && m_tabRessource["argile"] >= 1 && m_tabRessource["blé"] >= 1 && m_tabRessource["laine"] >= 1)
+        {
+            if(m_nbColonyInit > 0)
+            {
+                m_nbColonyInit--;
+                m_nbColony++;
+                Settlement s(casesCoordinate);
+                m_Settlements.push_back(s);
+                m_score++;
+                m_tabRessource["bois"]--;
+                m_tabRessource["argile"]--;
+                m_tabRessource["blé"]--;
+                m_tabRessource["laine"]--;
+                cout << "Vous avez bien placé une colonie." << endl;
+                cout<< "\n" << endl;
+                message = "Ok";
+            }
+            else
+            {
+                cout << "Vous ne pouvez plus construire de colonie !!" << endl;
+                message = "No";
+            }
+        }
+        else
+        {
+            cout << "Vous n'avez pas assez de ressource pour construire" << endl; 
+            message = "No";
+        }
+    }
+    return message;
+}
 
 void Player::startTurn(Player player, vector<Case> list_Cases)
 {
@@ -173,12 +222,18 @@ int Player::getscore()
 
 void Player::winRessources(int dices, vector<Case> list_Cases)
 {
-    for(int i=0; i<list_Cases.size(); i++)
+     for(int indexColony=0; indexColony<m_Settlements.size(); indexColony++)
     {
-        if(list_Cases[i].getNum() == dices)
+        for(int i=0; i<list_Cases.size(); i++)
         {
-            setRessource(list_Cases[i].getR(), "add");
-
+            // if(list_Cases[i].getId() == m_Settlements[indexColony].getnameCase())
+            // {
+            //     if(list_Cases[i].getNum() == dices)
+            //     {
+            //         setRessource(list_Cases[i].getR(), "add");
+            //     }
+            // }
+        
         }
     }
 }
@@ -197,8 +252,8 @@ string Player::placeRoad(string nameCase1, string nameCase2, vector<Case> list_C
                 {
                     m_nbRoadInit--;
                     m_nbRoads++;
-                    Road r(nameCase1[0], nameCase2[0]);
-                    m_tabRoad.push_back(r);
+                    //Road r(nameCase1[0], nameCase2[0]);
+                    //m_tabRoad.push_back(r);
                     list_Cases[index].setPositionRoadDispo(nameCase2[0], false);
                     getnbRoadsInit();
                     getnbRoads();
@@ -215,45 +270,45 @@ string Player::placeRoad(string nameCase1, string nameCase2, vector<Case> list_C
     
 }
 
-void Player::placementColony(Case case1, Case case2, Case case3)
-{
-   if(case1.getNeighbour(case2.getId()) && case2.getNeighbour(case3.getId()) && case3.getNeighbour(case1.getId()))
-   {
-       m_nbColonyInit--;
-       m_nbColony++;
-       Settlement s;
-       m_Settlements.push_back(s);
+// void Player::placementColony(Case case1, Case case2, Case case3)
+// {
+//    if(case1.getNeighbour(case2.getId()) && case2.getNeighbour(case3.getId()) && case3.getNeighbour(case1.getId()))
+//    {
+//        m_nbColonyInit--;
+//        m_nbColony++;
+//        Settlement s;
+//        m_Settlements.push_back(s);
 
-       cout << "Vous avez acquis une colonie" << endl;
-   }
-   else
-   {
-       cout << "Merci de donner des coordonnées cohérentes pour placer une colonie !";
-   }
+//        cout << "Vous avez acquis une colonie" << endl;
+//    }
+//    else
+//    {
+//        cout << "Merci de donner des coordonnées cohérentes pour placer une colonie !";
+//    }
    
-}
+// }
 
-void Player::getTabRoad()
-{
-    for(int index=0; index<m_tabRoad.size(); index++)
-    {
-        vector<char> m_tab = m_tabRoad[index].getCoordinates();
-        cout << "[";
-        for(int i=0; i<m_tab.size(); i++)
-        {
-            if(i<m_tab.size())
-            {
-                cout << m_tab[i] << ",";
-            }
-            else
-            {
-                cout << m_tab[i] ;
-            }
+// void Player::getTabRoad()
+// {
+//     for(int index=0; index<m_tabRoad.size(); index++)
+//     {
+//         vector<char> m_tab = m_tabRoad[index].getCoordinates();
+//         cout << "[";
+//         for(int i=0; i<m_tab.size(); i++)
+//         {
+//             if(i<m_tab.size())
+//             {
+//                 cout << m_tab[i] << ",";
+//             }
+//             else
+//             {
+//                 cout << m_tab[i] ;
+//             }
             
-        }
-        cout << "]" << endl;
-    }
-}
+//         }
+//         cout << "]" << endl;
+//     }
+// }
 
 int Player::getnbRoads()
 {
@@ -269,11 +324,20 @@ void Player::getnbColonyInit()
 {
     cout << m_nbColonyInit << endl;
 }
-void Player::getname()
+string Player::getname()
 {
-    cout << m_name << endl;
+    return m_name;
 }
 void Player::getcolor()
 {
     cout << m_color << endl;
+}
+
+void Player::getSettlement()
+{
+    for(int i=0; i<m_Settlements.size(); i++)
+    {
+        m_Settlements[i].getCoordinates();
+    }
+    
 }

@@ -1,22 +1,38 @@
 #include "Piece.hpp"
 
+#include <iostream>
 #include <string>
+#include <stdarg.h>
 using namespace std;
 
-Piece::Piece(){}
-
-Piece::Piece(string color):m_color(color)
-{}
+Piece::Piece(vector<char> casesCoordinate)
+{
+    
+    for(int Case=0; Case<casesCoordinate.size(); Case++)
+    {
+        m_coordinates.push_back(casesCoordinate[Case]);
+    }
+}
 
 Piece::~Piece(){}
 
-string Piece::getcolor()
+
+void Piece::getCoordinates()
 {
-    return m_color;
+    cout << "[";
+    for(int index=0; index<m_coordinates.size(); index++)
+    {
+        if(index < m_coordinates.size()-1)
+        {
+            cout << m_coordinates[index] << ", ";
+        }
+        else
+        {
+            cout << m_coordinates[index];
+        }
+        
+    }
+    cout << "]" << endl;
 }
 
-vector<char> Piece::getCoordinates()
-{
-    return m_coordinates;
-}
 

@@ -13,6 +13,11 @@
 
 * We will stay on the very basic rules but this game can be understood with multiple rules which consequently increases its complexity.
 
+## Dependencies
+```{}
+sudo apt-get install gcc-8 g++-8
+sudo apt-get install libgtk-3-dev
+```
 
 ## Launch project
 

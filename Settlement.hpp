@@ -2,14 +2,15 @@
 #define DEF_SETTLEMENT
 
 #include "Piece.hpp"
+#include <vector>
 
-class Settlement:public Piece
+
+
+class Settlement: public Piece
 {
-    private:
-
     public:
-        void setCoordinates(char tabCases[3]);
-
+        Settlement(std::vector<char>);
+        
 };
 
 #endif

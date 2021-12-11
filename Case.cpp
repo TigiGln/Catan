@@ -121,7 +121,7 @@ bool Case::getNeighbour(char idNeighbour)
 }
 
 
-void Case::getNeighbour()
+void Case::displayNeighbour()
 {
     cout << "[";
     for(int i=0; i<m_neighbours.size(); i++)
@@ -157,17 +157,28 @@ void Case::setPositionRoadDispo(char idVoisin, bool possible)
 }
 void Case::getPositionRoadDispo(char idVoisin)
 {
-    cout << m_dictPositionDispo[idVoisin];
+    cout << m_dictPositionDispo[idVoisin] << endl;
 }
 
-void Case::setPositionColonyDispo(string combinaison, bool possible)
+void Case::setPositionColonyDispo(string combinaison, bool possible, string add)
 {
-    m_positionDispoColony.insert(make_pair(combinaison, possible));
+    if(add == "add")
+    {
+        m_positionDispoColony.insert(make_pair(combinaison, possible));
+    }
+    else
+    {
+        //cout << m_positionDispoColony[combinaison] << endl;
+        m_positionDispoColony[combinaison] = possible;
+    }
+    
 }
 
 void Case::getPositionColonyDispo(string combinaison)
 {
-    cout << m_positionDispoColony[combinaison];
+    cout << m_positionDispoColony[combinaison] << endl;
 }
+
+
 
 

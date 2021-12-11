@@ -3,6 +3,7 @@
 
 
 #include <vector>
+#include <string>
 
 #include "Map.hpp"
 #include "Player.hpp"
@@ -17,6 +18,13 @@ class Jeu
         ~Jeu();
         void setPlayers(int nbPlayers);
         void getPlayers();
+        void tour(std::string namePlayer);
+        void placementColonyInitial();
+        int nbArgument();
+        char coordinatesAsk();
+        char coordinatesAsk(char nameCase);
+        char coordinatesAsk(char nameCase, char nameCase2);
+        bool isNumber(std::string s);
 };
 
 #endif

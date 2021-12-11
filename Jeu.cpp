@@ -1,15 +1,39 @@
 #include "Jeu.hpp"
+#include "Case.hpp"
+#include "Map.hpp"
 
 #include <iostream>
 #include <string>
+#include <stdarg.h>
+#include <algorithm>
+#include <vector>
 
 using namespace std;
 
 Jeu::Jeu(int nbPlayers)
 {
-    
     setPlayers(nbPlayers);
-    getPlayers();
+    placementColonyInitial();
+    bool score = false;
+    string namePlayer {""};
+    // while(score == false)
+    // {
+    //     for(int player=0; player<m_listPlayers.size(); player++)
+    //     {
+            // tour(namePlayer);
+    //         if(m_listPlayers[player].getscore() == 10)
+    //         {
+    //             score = true;
+                // break
+    //         }
+    //         namePlayer = m_listPlayers[player].getname();
+    //        
+    //     }
+    // 
+    // }
+    // cout << "Félicitation à " << namePlayer << ", il est déclaré grand vainqueur de la partie" << endl;
+    
+    
 }
 
 
@@ -35,3 +59,158 @@ void Jeu::getPlayers()
         m_listPlayers[i].getcolor();
     }
 }
+
+void Jeu::tour(string namePlayer)
+{
+    cout << "C'est au tour de " <<  namePlayer << "." << endl; 
+}
+
+void Jeu::placementColonyInitial()
+{
+    
+    vector<char> listnameCases;
+    for(int player=0; player<m_listPlayers.size(); player++)
+    {
+        cout << m_listPlayers[player].getname() << " A vous de jouer" << endl;
+        int nbCases = nbArgument();
+        int nbCasesTotal = nbCases;
+        int nbtour {0};
+        char idCase;
+        while(nbCases > 0)
+        {
+            if(nbtour == 0)
+            {
+                idCase = coordinatesAsk();
+            }
+            else if(nbtour == 1) 
+            {
+                idCase = coordinatesAsk(listnameCases[nbtour-1]);
+            }
+            else
+            {
+                idCase = coordinatesAsk(listnameCases[nbtour-2], listnameCases[nbtour-1]);
+            }
+            
+            listnameCases.push_back(idCase);
+            nbCases--;
+            nbtour++;
+        }
+        if(nbCasesTotal == 1)
+        { 
+            m_listPlayers[player].placeSettlement("start", nbCasesTotal, listnameCases[0]);
+        }
+        else if (nbCasesTotal == 2)
+        {
+            m_listPlayers[player].placeSettlement("start", nbCasesTotal, listnameCases[0], listnameCases[1]);
+        }
+        else if (nbCasesTotal == 3)
+        {
+            m_listPlayers[player].placeSettlement("start", nbCasesTotal, listnameCases[0], listnameCases[1], listnameCases[2]);
+        }
+        
+        
+    }
+    for(int player = m_listPlayers.size(); player>0; --player)
+    {
+        cout << player << endl;
+    }
+}
+bool Jeu::isNumber(string s)
+{
+   
+    return isdigit(s[0]); 
+    
+}
+int Jeu::nbArgument()
+{
+    int NbCases;
+    string nbCases;
+    bool check;
+    do
+    {
+        cout << "Combien de cases entourent la colonie que vous souhaitez poser ? (1/2/3)" << endl;
+        cin >> nbCases;
+        check = isNumber(nbCases);
+        if(check == 1)
+        {
+            NbCases = stoi(nbCases);
+        }
+        
+    } while (check != 1 && NbCases < 1 || NbCases > 3);
+    
+    
+    
+    return NbCases;
+}
+
+char Jeu::coordinatesAsk()
+{
+    string idCase;
+    bool check;
+    
+    do
+    {
+        cout << "Choisissez une lettre ou un symbole selon cette liste ";
+        cout << "[A, B, C, D, E, F, G, H, I, J, K, L, M, N O, P, Q, R, S, T, U, V, W, X, Y, Z, &, #, @, $]" << endl;
+        cin >> idCase;
+        check = isNumber(idCase);
+        if(check == 1)
+        {
+            cout << "Merci de donner un identifiant de case valide" << endl;
+        }
+    } while (idCase.size() != 1 || check != 0);
+    transform(idCase.begin(), idCase.end(), idCase.begin(), ::toupper);
+    return idCase[0];
+}
+
+char Jeu::coordinatesAsk(char nameCase)
+{
+    string idCase;
+    bool check;
+    
+    do
+    {
+        cout << "Choisissez une lettre ou un symbole selon cette liste ";
+        m_map.getCase(nameCase).displayNeighbour();
+        cin >> idCase;
+        check = isNumber(idCase);
+        if(check == 1)
+        {
+            cout << "Merci de donner un identifiant de case valide" << endl;
+        }
+        else
+        {
+            transform(idCase.begin(), idCase.end(), idCase.begin(), ::toupper);
+        }
+    } while (m_map.getCase(nameCase).getNeighbour(idCase[0]) == false);
+    
+    return idCase[0];
+    
+}
+
+char Jeu::coordinatesAsk(char nameCase, char nameCase2)
+{
+    string idCase;
+    bool check;
+    char elem;
+    do
+    {
+        cout << "Choisissez une lettre ou un symbole selon cette liste ";
+        elem = m_map.intersectNeighbours(nameCase, nameCase2);
+        cin >> idCase;
+        check = isNumber(idCase);
+        if(check == 1)
+        {
+            cout << "Merci de donner un identifiant de case valide" << endl;
+        }
+        else
+        {
+            transform(idCase.begin(), idCase.end(), idCase.begin(), ::toupper);
+        }
+    } while (idCase[0] != elem);
+    
+    return idCase[0];
+
+}
+
+

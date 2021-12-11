@@ -12,7 +12,7 @@ using namespace std;
 #include "Player.hpp"
 #include "Jeu.hpp"
 
-bool isNumber(string s)
+bool isnumber(string s)
 {
    
     return isdigit(s[0]); 
@@ -39,7 +39,7 @@ int startGame()
         
         cout << "Combien de joueur serez vous ? (2-6)" << "\n";
         cin >> nbJoueurs;
-        check = isNumber(nbJoueurs);
+        check = isnumber(nbJoueurs);
         if(check == 1)
         {
             nbJoueursChoice = stoi(nbJoueurs);

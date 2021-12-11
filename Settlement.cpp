@@ -1,15 +1,18 @@
 #include "Settlement.hpp"
+#include "Piece.hpp"
 
 #include <string>
+#include <vector>
+#include <stdarg.h>
+#include <iostream>
 using namespace std;
 
-
-
-void Settlement::setCoordinates(char tabCases[3])
+Settlement::Settlement(vector<char> casesCoordinate):Piece(casesCoordinate)
 {
-    for(int coordinates = 0; coordinates<3; coordinates++)
-    {
-        m_coordinates[coordinates] = tabCases[coordinates];
-    }
+    cout << "Voici les coordonnées de votre colonie: ";
+    getCoordinates();
 }
+
+
+
 

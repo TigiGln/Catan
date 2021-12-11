@@ -40,7 +40,7 @@ class Player
         void startTurn(Player player, std::vector<Case> list_Cases);//Début du tour
         char stopTurn();//Fin du tour
         void placementColony(Case case1, Case case2, Case case3);
-        std::string placeSettlement(std::string nameCase, int positionCase);//Placement de colonie en cours de partie
+        std::string placeSettlement(std::string moment, int nbCases, ...);//Placement de colonie en cours de partie
         std::string placeRoad(); //Placement d'une route en début de partie
         std::string placeRoad(std::string nameCase1, std::string nameCase2, std::vector<Case> list_Cases);//Placement des routes en cours de partie avec coordonnée
         
@@ -51,7 +51,8 @@ class Player
         int getnbRoads();//Récupère le nombre de route du joueur
         void getnbRoadsInit();//Affiche le nombre de route restantes
         void getnbColonyInit();//Affiche le nombre de colonie restantes à construire
-        void getname();
+        std::string getname();
+        void getSettlement();
 };
 
 

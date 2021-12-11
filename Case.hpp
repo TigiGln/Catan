@@ -34,14 +34,15 @@ class Case
         std::string setRJoueur(int dice);//ajout ressource joueurs
         void setNeighbours(char idCase);//modification de la liste cases voisines dans la map
         std::vector<char> getNeighbours();
-        void getNeighbour();
+        void displayNeighbour();
         bool getNeighbour(char idNeighbour);
         void setCoordinate(int line, int column);
         void getCoordinate();
         void setPositionRoadDispo(char idVoisin, bool possible);
         void getPositionRoadDispo(char idVoisin);
-        void setPositionColonyDispo(std::string combinaison, bool possible);
+        void setPositionColonyDispo(std::string combinaison, bool possible, std::string add);
         void getPositionColonyDispo(std::string combinaison);
+        
 };
 
 #endif

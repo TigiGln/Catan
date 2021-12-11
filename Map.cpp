@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 
@@ -22,6 +23,7 @@ Map::Map()
     setNeighbours();
     setCoordinateCase();
     setDictPositionVoisionDispo();
+    setMapPositionColonyDispo();
     getmatrix();
     
 }
@@ -58,6 +60,7 @@ void Map::getmatrix()
     }
     cout << endl;
 }
+
 void Map::setlistId()
 {
     for(int line=0; line<11; line++)
@@ -128,15 +131,15 @@ vector<Case> Map::getCases()
 
 Case Map::getCase(char id)
 {
-    Case c;
+    Case *c;
     for(int index=0; index<m_listCases.size(); index++)
     {
         if(m_listCases[index].getId() == id)
         {
-            c = m_listCases[index];
+            c = &m_listCases[index];
         }
     }
-    return c;
+    return *c;
 }
 
 vector<int> Map::getCoordinateCase(char id)
@@ -165,6 +168,37 @@ void Map::setCoordinateCase()
     }
 }
 
+char Map::intersectNeighbours(char namecase1, char namecase2)
+{
+    char idCase;
+    vector<char> vectornamecase1 = getCase(namecase1).getNeighbours();
+    vector<char> vectornamecase2 = getCase(namecase2).getNeighbours();
+    vector<char> intersectvector;
+    sort(vectornamecase1.begin(), vectornamecase1.end());
+    sort(vectornamecase2.begin(), vectornamecase2.end());
+
+    set_intersection(vectornamecase1.begin(), vectornamecase1.end(),\
+    vectornamecase2.begin(), vectornamecase2.end(), back_inserter(intersectvector));
+    cout << "[";
+    for(int i=0; i< intersectvector.size(); i++)
+    {
+        if(i < intersectvector.size()-1)
+        {
+            cout << intersectvector[i] << ", ";
+        }
+        else
+        {
+            cout << intersectvector[i];
+        }
+        
+        idCase = intersectvector[i];
+    }
+
+    cout << "]";
+
+    return idCase;
+}
+
 void Map::setDictPositionVoisionDispo()
 {
     for(int indexCase=0; indexCase < m_listCases.size(); indexCase++)
@@ -176,9 +210,117 @@ void Map::setDictPositionVoisionDispo()
         }
     }
 }
+void Map::setMapPositionColonyDispo()
+{
+    for(int i=0; i<m_listCases.size(); i++)
+    {
+        for(int position=0; position<6; ++position)
+        {
+            m_listCases[i].setPositionColonyDispo(m_listCases[i].getId() + to_string(position), true, "add");
+        }
+    }
+}
 
+void Map::updateMapPositionColonyDispo(char nameCase, string positionCase, bool possible)
+{
+    for(int i=0; i<m_listCases.size(); i++)
+    {
+        if(m_listCases[i].getId() == nameCase)
+        {
+            m_listCases[i].setPositionColonyDispo(positionCase, possible, "update");
+        }
+    }
+}
 
+void Map::getMapPositionColonyDispo(char nameCase, string positionCase)
+{
+    for(int i=0; i<m_listCases.size(); i++)
+    {
+        if(m_listCases[i].getId() == nameCase)
+        {
+            m_listCases[i].getPositionColonyDispo(positionCase);
+        }
+    }
+}
 
+// void Map::setMapPositionColonyDispo()
+// {
+//     for(int i=0; i<m_listCases.size(); i++)
+//     {
+//         if(m_listCases[i].getId() == 'A')
+//         {
+//             m_listCases[i].setPositionColonyDispo("A1", true);
+//             m_listCases[i].setPositionColonyDispo("A2", true);
+//             m_listCases[i].setPositionColonyDispo("AC", true);
+//             m_listCases[i].setPositionColonyDispo("ACE", true);
+//             m_listCases[i].setPositionColonyDispo("ABE", true);
+//             m_listCases[i].setPositionColonyDispo("AB", true);
+//         }
+//         if(m_listCases[i].getId() == 'B')
+//         {
+//             m_listCases[i].setPositionColonyDispo("B", true);
+//             m_listCases[i].setPositionColonyDispo("BA", true);
+//             m_listCases[i].setPositionColonyDispo("BAE", true);
+//             m_listCases[i].setPositionColonyDispo("BEH", true);
+//             m_listCases[i].setPositionColonyDispo("BDH", true);
+//             m_listCases[i].setPositionColonyDispo("BD", true);
+//         }
+//         if(m_listCases[i].getId() == 'C')
+//         {
+//             m_listCases[i].setPositionColonyDispo("CA", true);
+//             m_listCases[i].setPositionColonyDispo("C", true);
+//             m_listCases[i].setPositionColonyDispo("CF", true);
+//             m_listCases[i].setPositionColonyDispo("CFI", true);
+//             m_listCases[i].setPositionColonyDispo("CEI", true);
+//             m_listCases[i].setPositionColonyDispo("CEA", true);
+//         }
+//         if(m_listCases[i].getId() == 'D')
+//         {
+//             m_listCases[i].setPositionColonyDispo("D", true);
+//             m_listCases[i].setPositionColonyDispo("DB", true);
+//             m_listCases[i].setPositionColonyDispo("DBH", true);
+//             m_listCases[i].setPositionColonyDispo("DHK", true);
+//             m_listCases[i].setPositionColonyDispo("DGK", true);
+//             m_listCases[i].setPositionColonyDispo("DG", true);
+//         }
+//         if(m_listCases[i].getId() == 'E')
+//         {
+//             m_listCases[i].setPositionColonyDispo("EAB", true);
+//             m_listCases[i].setPositionColonyDispo("EAC", true);
+//             m_listCases[i].setPositionColonyDispo("ECI", true);
+//             m_listCases[i].setPositionColonyDispo("EIL", true);
+//             m_listCases[i].setPositionColonyDispo("EHL", true);
+//             m_listCases[i].setPositionColonyDispo("EBH", true);
+//         }
+//         if(m_listCases[i].getId() == 'F')
+//         {
+//             m_listCases[i].setPositionColonyDispo("FC", true);
+//             m_listCases[i].setPositionColonyDispo("F", true);
+//             m_listCases[i].setPositionColonyDispo("FJ", true);
+//             m_listCases[i].setPositionColonyDispo("FJM", true);
+//             m_listCases[i].setPositionColonyDispo("FIM", true);
+//             m_listCases[i].setPositionColonyDispo("FCI", true);
+//         }
+//         if(m_listCases[i].getId() == 'G')
+//         {
+//             m_listCases[i].setPositionColonyDispo("G1", true);
+//             m_listCases[i].setPositionColonyDispo("GD", true);
+//             m_listCases[i].setPositionColonyDispo("GDK", true);
+//             m_listCases[i].setPositionColonyDispo("GKN", true);
+//             m_listCases[i].setPositionColonyDispo("GN", true);
+//             m_listCases[i].setPositionColonyDispo("G6", true);
+//         }
+//         if(m_listCases[i].getId() == '')
+//         {
+//             m_listCases[i].setPositionColonyDispo("B", true);
+//             m_listCases[i].setPositionColonyDispo("BA", true);
+//             m_listCases[i].setPositionColonyDispo("BAE", true);
+//             m_listCases[i].setPositionColonyDispo("BEH", true);
+//             m_listCases[i].setPositionColonyDispo("BDH", true);
+//             m_listCases[i].setPositionColonyDispo("BD", true);
+//         }
+//     }
+// }
 
 void Map::setNeighbours()
 {
