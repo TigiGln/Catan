@@ -21,7 +21,7 @@ class Jeu
         void tour(std::string namePlayer);
         void placementColonyInitial();
         int nbArgument();
-        char coordinatesAsk();
+        char coordinatesAsk(int nbCasesTotal);
         char coordinatesAsk(char nameCase);
         char coordinatesAsk(char nameCase, char nameCase2);
         bool isNumber(std::string s);

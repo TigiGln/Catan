@@ -68,9 +68,10 @@ void Jeu::tour(string namePlayer)
 void Jeu::placementColonyInitial()
 {
     
-    vector<char> listnameCases;
+    
     for(int player=0; player<m_listPlayers.size(); player++)
     {
+        vector<char> listnameCases;
         cout << m_listPlayers[player].getname() << " A vous de jouer" << endl;
         int nbCases = nbArgument();
         int nbCasesTotal = nbCases;
@@ -80,7 +81,7 @@ void Jeu::placementColonyInitial()
         {
             if(nbtour == 0)
             {
-                idCase = coordinatesAsk();
+                idCase = coordinatesAsk(nbCasesTotal);
             }
             else if(nbtour == 1) 
             {
@@ -143,11 +144,13 @@ int Jeu::nbArgument()
     return NbCases;
 }
 
-char Jeu::coordinatesAsk()
+char Jeu::coordinatesAsk(int nbCasesTotal)
 {
     string idCase;
+    string posCase;
     bool check;
-    
+    bool check2 {false};
+    bool check3;
     do
     {
         cout << "Choisissez une lettre ou un symbole selon cette liste ";
@@ -158,8 +161,30 @@ char Jeu::coordinatesAsk()
         {
             cout << "Merci de donner un identifiant de case valide" << endl;
         }
-    } while (idCase.size() != 1 || check != 0);
-    transform(idCase.begin(), idCase.end(), idCase.begin(), ::toupper);
+        else
+        {
+            transform(idCase.begin(), idCase.end(), idCase.begin(), ::toupper);
+        }
+        if(nbCasesTotal == 1)
+        {
+            if(idCase[0] == 'A' || idCase[0] == 'G' || idCase[0] == 'J' || idCase[0] == 'U' || idCase[0] == 'X' || idCase[0] == '$')
+            {
+                do
+                {
+                    cout << "Merci d'indiquer une position (1/2)" << endl;
+                    cin >> posCase;
+                    check3 = isNumber(posCase);
+                    if(posCase == "1" || posCase == "2")
+                    {
+                        check2 = true;
+                    }
+                    
+                } while(check2 == false || check3 == 0);
+            }
+        }
+        
+    } while(idCase.size() != 1 || check != 0);
+
     return idCase[0];
 }
 
