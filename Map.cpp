@@ -232,15 +232,28 @@ void Map::updateMapPositionColonyDispo(char nameCase, string positionCase, bool 
     }
 }
 
-void Map::getMapPositionColonyDispo(char nameCase, string positionCase)
+// void Map::getMapPositionColonyDispo(char nameCase, string positionCase)
+// {
+//     for(int i=0; i<m_listCases.size(); i++)
+//     {
+//         if(m_listCases[i].getId() == nameCase)
+//         {
+//             m_listCases[i].getPositionColonyDispo(positionCase);
+//         }
+//     }
+// }
+
+bool Map::checkpositionColonyDispo(string positionColony)
 {
+    bool dispo;
     for(int i=0; i<m_listCases.size(); i++)
     {
-        if(m_listCases[i].getId() == nameCase)
+        if(m_listCases[i].getId() == positionColony[0])
         {
-            m_listCases[i].getPositionColonyDispo(positionCase);
+            dispo = m_listCases[i].getPositionColonyDispo(positionColony);
         }
     }
+    return dispo;
 }
 
 void Map::setMapPositionColonyDispo()

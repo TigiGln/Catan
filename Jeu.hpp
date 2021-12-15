@@ -18,12 +18,13 @@ class Jeu
         ~Jeu();
         void setPlayers(int nbPlayers);
         void getPlayers();
-        void tour(std::string namePlayer);
-        void placementColonyInitial();
+        void tour(std::string namePlayer, int indexplayer);
+        void PlacementInitial();
+        void placementColonyInitial(int indexplayer);
         int nbArgument();
-        char coordinatesAsk(int nbCasesTotal);
-        char coordinatesAsk(char nameCase);
-        char coordinatesAsk(char nameCase, char nameCase2);
+        std::string coordinatesAsk(int nbCasesTotal);
+        char coordinatesAsk(int nbCasesTotal, char nameCase);
+        char coordinatesAsk(int nbCasesTotal, char nameCase, char nameCase2);
         bool isNumber(std::string s);
 };
 

@@ -25,13 +25,14 @@ class Map
         void setNeighbours(); //Récupération des voisins pour chaques cases
         void setlistId();//Création ou modification de la liste des id de chaque case
         std::vector<char> getlistId(); //Récupération de la liste des id des cases
-        std::vector<int> getCoordinateCase(char id);
-        void setCoordinateCase();
+        std::vector<int> getCoordinateCase(char id);//récupère le vecteur de coordonnées (ligne/colonne) de la matrice
+        void setCoordinateCase();//ajoute les coordonnées de la matrice à la case
         void setDictPositionVoisionDispo();
         void setMapPositionColonyDispo();
         void updateMapPositionColonyDispo(char nameCase, std::string positionCase, bool possible);
         void getMapPositionColonyDispo(char nameCase, std::string positionCase);
-        char intersectNeighbours(char namecase1, char namecase2);
+        char intersectNeighbours(char namecase1, char namecase2);//récupère l'intersection des voisins entre deux cases
+        bool checkpositionColonyDispo(std::string position);//check si la position de la case est disponible ou pas et renvoie un bool
                
         
 };

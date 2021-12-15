@@ -41,7 +41,7 @@ class Case
         void setPositionRoadDispo(char idVoisin, bool possible);
         void getPositionRoadDispo(char idVoisin);
         void setPositionColonyDispo(std::string combinaison, bool possible, std::string add);
-        void getPositionColonyDispo(std::string combinaison);
+        bool getPositionColonyDispo(std::string combinaison);
         
 };
 

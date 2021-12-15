@@ -174,9 +174,9 @@ void Case::setPositionColonyDispo(string combinaison, bool possible, string add)
     
 }
 
-void Case::getPositionColonyDispo(string combinaison)
+bool Case::getPositionColonyDispo(string combinaison)
 {
-    cout << m_positionDispoColony[combinaison] << endl;
+    return m_positionDispoColony[combinaison];
 }
 
 

@@ -13,25 +13,25 @@ using namespace std;
 Jeu::Jeu(int nbPlayers)
 {
     setPlayers(nbPlayers);
-    placementColonyInitial();
+    PlacementInitial();
     bool score = false;
     string namePlayer {""};
-    // while(score == false)
-    // {
-    //     for(int player=0; player<m_listPlayers.size(); player++)
-    //     {
-            // tour(namePlayer);
-    //         if(m_listPlayers[player].getscore() == 10)
-    //         {
-    //             score = true;
-                // break
-    //         }
-    //         namePlayer = m_listPlayers[player].getname();
-    //        
-    //     }
-    // 
-    // }
-    // cout << "Félicitation à " << namePlayer << ", il est déclaré grand vainqueur de la partie" << endl;
+    while(score == false)
+    {
+        for(int player=0; player<m_listPlayers.size(); player++)
+        {
+            tour(namePlayer, player);
+            if(m_listPlayers[player].getscore() == 10)
+            {
+                score = true;
+                break;
+            }
+            namePlayer = m_listPlayers[player].getname();
+           
+        }
+    
+    }
+    cout << "Félicitation à " << namePlayer << ", il est déclaré grand vainqueur de la partie" << endl;
     
     
 }
@@ -60,61 +60,133 @@ void Jeu::getPlayers()
     }
 }
 
-void Jeu::tour(string namePlayer)
+void Jeu::tour(string namePlayer, int indexplayer)
 {
-    cout << "C'est au tour de " <<  namePlayer << "." << endl; 
+    cout << "C'est au tour de " <<  namePlayer << "." << endl;
+    m_listPlayers[indexplayer].rollingDice();
+    /* C'est dans cette methode qu'on va ensuite mettre 
+    les instruction pour chaque tour jusqu'à ce que le score d'un des joueurs arrive à 10 */
 }
 
-void Jeu::placementColonyInitial()
+void Jeu::PlacementInitial()
 {
-    
-    
     for(int player=0; player<m_listPlayers.size(); player++)
     {
-        vector<char> listnameCases;
         cout << m_listPlayers[player].getname() << " A vous de jouer" << endl;
-        int nbCases = nbArgument();
-        int nbCasesTotal = nbCases;
-        int nbtour {0};
-        char idCase;
-        while(nbCases > 0)
-        {
-            if(nbtour == 0)
-            {
-                idCase = coordinatesAsk(nbCasesTotal);
-            }
-            else if(nbtour == 1) 
-            {
-                idCase = coordinatesAsk(listnameCases[nbtour-1]);
-            }
-            else
-            {
-                idCase = coordinatesAsk(listnameCases[nbtour-2], listnameCases[nbtour-1]);
-            }
-            
-            listnameCases.push_back(idCase);
-            nbCases--;
-            nbtour++;
-        }
-        if(nbCasesTotal == 1)
-        { 
-            m_listPlayers[player].placeSettlement("start", nbCasesTotal, listnameCases[0]);
-        }
-        else if (nbCasesTotal == 2)
-        {
-            m_listPlayers[player].placeSettlement("start", nbCasesTotal, listnameCases[0], listnameCases[1]);
-        }
-        else if (nbCasesTotal == 3)
-        {
-            m_listPlayers[player].placeSettlement("start", nbCasesTotal, listnameCases[0], listnameCases[1], listnameCases[2]);
-        }
-        
-        
+        placementColonyInitial(player); 
     }
-    for(int player = m_listPlayers.size(); player>0; --player)
+    for(int player=m_listPlayers.size()-1; player>=0; --player)
     {
-        cout << player << endl;
+        cout << m_listPlayers[player].getname() << " A vous de jouer" << endl;
+        placementColonyInitial(player);
     }
+
+}
+
+void Jeu::placementColonyInitial(int indexplayer)
+{
+    vector<char> listnameCases;
+    int nbCases = nbArgument();
+    int nbCasesTotal = nbCases;
+    int nbtour {0};
+    char idCase;
+    string positionColony;
+    while(nbCases > 0)
+    {
+        if(nbtour == 0)
+        {
+            positionColony = coordinatesAsk(nbCasesTotal);
+            idCase = positionColony[0];
+        }
+        else if(nbtour == 1) 
+        {
+            idCase = coordinatesAsk(nbCasesTotal, listnameCases[nbtour-1]);
+            positionColony = idCase;
+            string strtmp; 
+            strtmp = listnameCases[nbtour-1];
+            positionColony = strtmp + positionColony;
+        }
+        else
+        {
+            idCase = coordinatesAsk(nbCasesTotal, listnameCases[nbtour-2], listnameCases[nbtour-1]);
+            positionColony = idCase;
+            string strtmp;
+            string strtmp2;
+            strtmp = listnameCases[nbtour-2];
+            strtmp2 = listnameCases[nbtour-1];
+            positionColony = strtmp + strtmp2 + positionColony;
+        }
+        
+        listnameCases.push_back(idCase);
+        nbCases--;
+        nbtour++;
+        
+    }
+    bool dispo {true};
+    if(nbCasesTotal == 1)
+    { 
+        if(m_map.checkpositionColonyDispo(positionColony) == 1)
+        {
+            
+            m_listPlayers[indexplayer].placeSettlement("start", nbCasesTotal, listnameCases[0]);
+            m_map.updateMapPositionColonyDispo(idCase, positionColony, false);
+        }
+        else
+        {
+            cout << "Désolé cette place est déjà occupé" << endl;
+            placementColonyInitial(indexplayer);
+        }   
+    }
+    else if (nbCasesTotal == 2)
+    {
+        
+        if(m_map.checkpositionColonyDispo(positionColony) == 1)
+        {
+            string positionColony2;
+            string strtmp, strtmp2;
+            strtmp = listnameCases[0];
+            strtmp2 = listnameCases[1];
+            positionColony2 = strtmp2 + strtmp;
+            m_listPlayers[indexplayer].placeSettlement("start", nbCasesTotal, listnameCases[0], listnameCases[1]);
+            m_map.updateMapPositionColonyDispo(listnameCases[0], positionColony, false);
+            m_map.updateMapPositionColonyDispo(listnameCases[1], positionColony2, false);
+        }
+        else 
+        {
+            cout << "Désolé cette place est déjà occupé, veuillez recommencer" << endl;
+            placementColonyInitial(indexplayer);
+        }
+        
+    }
+    else if (nbCasesTotal == 3)
+    {
+        
+        if(m_map.checkpositionColonyDispo(positionColony) == 1)
+        {
+            string positionColony2;
+            string positionColony3;
+            string strtmp, strtmp2, strtmp3;
+            strtmp = listnameCases[0];
+            strtmp2 = listnameCases[1];
+            strtmp3 = listnameCases[2];
+            positionColony2 = strtmp3 + strtmp + strtmp3;
+            positionColony3 = strtmp3 + strtmp + strtmp2;
+            m_listPlayers[indexplayer].placeSettlement("start", nbCasesTotal, listnameCases[0], listnameCases[1], listnameCases[2]);
+            m_map.updateMapPositionColonyDispo(listnameCases[0], positionColony, false);
+            m_map.updateMapPositionColonyDispo(listnameCases[0], positionColony2, false);
+            m_map.updateMapPositionColonyDispo(listnameCases[0], positionColony3, false);
+            
+        }
+        else
+        {
+            cout << "Désolé cette place est déjà occupé, veuillez recommencer" << endl;
+            placementColonyInitial(indexplayer);
+        }
+        
+    }
+        
+        
+    
 }
 bool Jeu::isNumber(string s)
 {
@@ -144,10 +216,11 @@ int Jeu::nbArgument()
     return NbCases;
 }
 
-char Jeu::coordinatesAsk(int nbCasesTotal)
+string Jeu::coordinatesAsk(int nbCasesTotal)
 {
     string idCase;
     string posCase;
+    string idCasereturn;
     bool check;
     bool check2 {false};
     bool check3;
@@ -178,21 +251,24 @@ char Jeu::coordinatesAsk(int nbCasesTotal)
                     {
                         check2 = true;
                     }
-                    
+                    idCasereturn = idCase + posCase;
                 } while(check2 == false || check3 == 0);
             }
+        }
+        else
+        {
+            idCasereturn = idCase;
         }
         
     } while(idCase.size() != 1 || check != 0);
 
-    return idCase[0];
+    return idCasereturn;
 }
 
-char Jeu::coordinatesAsk(char nameCase)
+char Jeu::coordinatesAsk(int nbCasesTotal, char nameCase)
 {
     string idCase;
     bool check;
-    
     do
     {
         cout << "Choisissez une lettre ou un symbole selon cette liste ";
@@ -208,12 +284,11 @@ char Jeu::coordinatesAsk(char nameCase)
             transform(idCase.begin(), idCase.end(), idCase.begin(), ::toupper);
         }
     } while (m_map.getCase(nameCase).getNeighbour(idCase[0]) == false);
-    
+
     return idCase[0];
-    
 }
 
-char Jeu::coordinatesAsk(char nameCase, char nameCase2)
+char Jeu::coordinatesAsk(int nbCasesTotal, char nameCase, char nameCase2)
 {
     string idCase;
     bool check;
@@ -222,6 +297,7 @@ char Jeu::coordinatesAsk(char nameCase, char nameCase2)
     {
         cout << "Choisissez une lettre ou un symbole selon cette liste ";
         elem = m_map.intersectNeighbours(nameCase, nameCase2);
+        cout << endl;
         cin >> idCase;
         check = isNumber(idCase);
         if(check == 1)
@@ -237,5 +313,7 @@ char Jeu::coordinatesAsk(char nameCase, char nameCase2)
     return idCase[0];
 
 }
+
+
 
 

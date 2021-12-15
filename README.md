@@ -25,6 +25,12 @@ sudo apt-get install libgtk-3-dev
 make clean && make && ./jeu
 ```
 
+## Launch Interface
+```{}
+cd Interface
+make clean && make && ./interface
+```
+
 ## Map/Legend
 
 ![Screenshot](./pictures/Legend_Map.png)
